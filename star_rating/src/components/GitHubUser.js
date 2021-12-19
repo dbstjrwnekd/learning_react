@@ -1,29 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import useFetch from '../hooks/useFetch';
 
 const GitHubUser = ({login}) => {
-    const [data, setData] = useState();
-    const [error, setError] = useState();
-    const [loading, setLoading] = useState(false);
+    const { loading, data, error } = useFetch(
+        `https://api.github.com/users/${login}`
+    );
 
-    useEffect(() => {
-        if(!login) return;
-        setLoading(true);
-        async function getUserData() {
-            try{
-                let userInfo = await fetch(`https://api.github.com/users/${login}`);
-                let userData = await userInfo.json();
-                setData(userData);
-                setLoading(false);
-            }catch(e){
-                setError(e);
-            }
-        }
-        getUserData();
-    }, [login]);
-    if(loading) return <h1>loading...</h1>;
-    if (error) return <pre>{JSON.stringify(error, null, 2)}</pre>;
-    if (!data) return null;
-    
+    if(loading) return <h1>loading...</h1>
+    if(error) return <pre>{JSON.stringify(error, null, 2)}</pre>
+
     return (
         <div className="githubUser">
             <img
