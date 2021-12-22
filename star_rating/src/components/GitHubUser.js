@@ -1,5 +1,6 @@
 import React from 'react';
 import Fetch from './Fetch';
+import UserRepositories from './UserRepositories';
 
 const GitHubUser = ({login}) => {
     return (
